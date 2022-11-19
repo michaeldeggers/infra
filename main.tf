@@ -29,9 +29,9 @@ resource "tfe_variable" "secret_key" {
 resource "tfe_variable" "aws_account_id" {
   for_each     = var.projects
   key          = "aws_account_id"
-  value        = each.key
+  value        = data.aws_caller_identity.current.account_id
   category     = "terraform"
-  workspace_id = data.aws_caller_identity.current.account_id
+  workspace_id = tfe_workspace.projects[each.key].id
   description  = "Project Name"
 }
 
