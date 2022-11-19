@@ -20,7 +20,7 @@ resource "github_repository" "projects" {
   name        = each.key
   description = each.value["description"]
 
-  private = true
+  visibility = "private"
 
   template {
     owner                = "michaeldeggers"
