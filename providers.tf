@@ -1,9 +1,13 @@
 # Using a single workspace:
 terraform {
   required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "3.26.0"
+    tfe = {
+      source  = "hashicorp/tfe"
+      version = "0.39.0"
+    }
+    github = {
+      source  = "integrations/github"
+      version = "5.9.0"
     }
   }
   required_version = ">= 1.1.0"
@@ -18,7 +22,6 @@ terraform {
   }
 }
 
-# demo, will remove
-provider "aws" {
-  region = "us-west-2"
+provider "github" {
+  # Configuration options
 }
