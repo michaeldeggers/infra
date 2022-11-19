@@ -9,6 +9,10 @@ terraform {
       source  = "integrations/github"
       version = "5.9.0"
     }
+    aws = {
+      source  = "hashicorp/aws"
+      version = "4.40.0"
+    }
   }
   required_version = ">= 1.1.0"
 
@@ -28,5 +32,9 @@ provider "github" {
 }
 
 provider "tfe" {
+  # Configuration options
+}
+
+provider "aws" {
   # Configuration options
 }
