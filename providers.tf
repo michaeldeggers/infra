@@ -17,3 +17,8 @@ terraform {
     }
   }
 }
+
+# demo, will remove
+provider "aws" {
+  region = "us-west-2"
+}
