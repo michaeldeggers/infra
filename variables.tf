@@ -21,3 +21,7 @@ variable "projects" {
 variable "github_token" {
   sensitive = true
 }
+
+variable "team_api_token" {
+  sensitive = true
+}
