@@ -1,6 +1,6 @@
 resource "tfe_team" "dev" {
   name         = "devs"
-  organization = "eggs-projects"
+  organization = var.organization
 }
 
 resource "tfe_team_token" "dev" {
@@ -10,7 +10,7 @@ resource "tfe_team_token" "dev" {
 resource "tfe_workspace" "projects" {
   for_each     = var.projects
   name         = each.key
-  organization = "eggs-projects"
+  organization = var.organization
   tag_names    = each.value["tags"]
 }
 
@@ -20,16 +20,16 @@ resource "github_repository" "projects" {
   name        = each.key
   description = each.value["description"]
 
-  visibility = "private"
+  visibility = each.value["visibility"]
 
   template {
-    owner                = "michaeldeggers"
-    repository           = "repo_template"
+    owner                = var.owner
+    repository           = var.template_repo
     include_all_branches = false
   }
 }
 
-resource "github_actions_secret" "example_secret" {
+resource "github_actions_secret" "tf_api_token" {
   for_each        = var.projects
   repository      = each.key
   secret_name     = "TF_API_TOKEN"
