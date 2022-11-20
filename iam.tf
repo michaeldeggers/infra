@@ -91,7 +91,7 @@ resource "aws_iam_role" "projects" {
 }
 
 data "aws_iam_policy" "AmazonEC2FullAccess" {
-  arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/AmazonEC2FullAccess"
+  arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
 }
 
 resource "aws_iam_role_policy_attachment" "AmazonEC2FullAccess" {
