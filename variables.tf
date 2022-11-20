@@ -25,3 +25,7 @@ variable "github_token" {
 variable "team_api_token" {
   sensitive = true
 }
+
+variable "region" {
+  default = "us-east-1"
+}

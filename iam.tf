@@ -101,7 +101,7 @@ resource "aws_iam_role" "projects" {
             "rds:*"
           ]
           Effect   = "Allow"
-          Resource = "arn:aws:rds:${data.aws_caller_identity.current.region}:${data.aws_caller_identity.current.account_id}:*:${var.organization}-${each.key}*"
+          Resource = "arn:aws:rds:${var.region}:${data.aws_caller_identity.current.account_id}:*:${var.organization}-${each.key}*"
         },
         {
           Action = [
