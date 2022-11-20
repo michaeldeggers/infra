@@ -14,19 +14,18 @@ resource "aws_iam_user_policy" "projects" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Principal = {
-          "AWS" = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
-        }
+        Action   = "sts:AssumeRole"
+        Effect   = "Allow"
+        Resource = aws_iam_role.projects[each.key].arn
       },
     ]
   })
 }
 
 resource "aws_iam_user_policy" "eggs_cli" {
-  name = "eggs-cli-assume-role-policy"
-  user = "eggs-cli"
+  for_each = var.projects
+  name     = "eggs-cli-${each.key}-assume-role-policy"
+  user     = "eggs-cli"
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
@@ -34,11 +33,9 @@ resource "aws_iam_user_policy" "eggs_cli" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Principal = {
-          "AWS" = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
-        }
+        Action   = "sts:AssumeRole"
+        Effect   = "Allow"
+        Resource = aws_iam_role.projects[each.key].arn
       },
     ]
   })
