@@ -33,9 +33,9 @@ resource "aws_iam_role" "projects" {
       Version = "2012-10-17"
       Statement = [
         {
-          Action   = ["ec2:Describe*"]
+          Action   = ["*"]
           Effect   = "Allow"
-          Resource = "${var.organization}-${each.key}*"
+          Resource = "arn:aws:*:::*/${var.organization}-${each.key}*"
         },
       ]
     })
