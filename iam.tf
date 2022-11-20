@@ -67,6 +67,7 @@ resource "aws_iam_role" "projects" {
     ]
   })
 
+  # Full Rights over owned resources. TODO: Limit Scope
   inline_policy {
     name = "${var.organization}-${each.key}-policy"
 
@@ -84,6 +85,23 @@ resource "aws_iam_role" "projects" {
               "aws:ResourceTag/Owner" = "${var.organization}-${each.key}"
             }
           }
+        },
+      ]
+    })
+  }
+
+  inline_policy {
+    name = "${var.organization}-${each.key}-rds-policy"
+
+    policy = jsonencode({
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Action = [
+            "rds:DescribeDBSubnetGroups",
+          ]
+          Effect   = "Allow"
+          Resource = "arn:aws:rds::${data.aws_caller_identity.current.account_id}:subgrp:${var.organization}-${each.key}*"
         },
       ]
     })
