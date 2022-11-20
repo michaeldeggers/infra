@@ -109,7 +109,7 @@ resource "aws_iam_role" "projects" {
             "iam:DeleteServiceLinkedRole"
           ]
           Effect   = "Allow"
-          Resource = "arn:aws:iam::*:role/aws-service-role/rds.amazonaws.com/${var.organization}-${each.key}*"
+          Resource = "arn:aws:iam::*:role/aws-service-role/rds.amazonaws.com/*"
           Condition = {
             "StringLike" = {
               "iam:AWSServiceName" : "rds.amazonaws.com"
@@ -122,7 +122,7 @@ resource "aws_iam_role" "projects" {
             "iam:PutRolePolicy"
           ]
           Effect   = "Allow"
-          Resource = "arn:aws:iam::*:role/aws-service-role/rds.amazonaws.com/${var.organization}-${each.key}*"
+          Resource = "arn:aws:iam::*:role/aws-service-role/rds.amazonaws.com/*"
         },
       ]
     })
