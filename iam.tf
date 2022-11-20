@@ -34,7 +34,7 @@ resource "aws_iam_role" "projects" {
       Statement = [
         {
           Action = [
-            "ec2:Describe*",
+            "ec2:*",
           ]
           Effect   = "Allow"
           Resource = "*"
