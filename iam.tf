@@ -20,7 +20,7 @@ resource "aws_iam_role" "projects" {
         Effect = "Allow"
         Sid    = ""
         Principal = {
-          AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${each.key}-user"
+          "AWS" = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${var.organization}-${each.key}-user"
         }
       },
     ]
