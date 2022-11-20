@@ -32,7 +32,16 @@ resource "tfe_variable" "aws_account_id" {
   value        = data.aws_caller_identity.current.account_id
   category     = "terraform"
   workspace_id = tfe_workspace.projects[each.key].id
-  description  = "Project Name"
+  description  = "AWS Account ID"
+}
+
+resource "tfe_variable" "organization" {
+  for_each     = var.projects
+  key          = "organization"
+  value        = var.organization
+  category     = "terraform"
+  workspace_id = tfe_workspace.projects[each.key].id
+  description  = "Project Organization"
 }
 
 resource "tfe_variable" "project_name" {
