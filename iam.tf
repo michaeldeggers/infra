@@ -99,6 +99,8 @@ resource "aws_iam_role" "projects" {
         {
           Action = [
             "rds:DescribeDBSubnetGroups",
+            "rds:CreateDBInstance",
+            "rds:DeleteDBInstance"
           ]
           Effect   = "Allow"
           Resource = "arn:aws:rds::${data.aws_caller_identity.current.account_id}:subgrp:${var.organization}-${each.key}*"
