@@ -9,8 +9,8 @@ resource "aws_iam_access_key" "projects" {
 }
 
 resource "aws_iam_role" "projects" {
-  for_each = var.projects
-  name     = "${var.organization}-${each.key}-role"
+  for_each    = var.projects
+  name_prefix = "${var.organization}-${each.key}-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
