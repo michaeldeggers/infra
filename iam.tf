@@ -38,6 +38,11 @@ resource "aws_iam_role" "projects" {
           ]
           Effect   = "Allow"
           Resource = "*"
+          Condition = {
+            "StringEquals" = {
+              "aws:ResourceTag/Owner" = "${var.organization}-${each.key}"
+            }
+          }
         },
       ]
     })
