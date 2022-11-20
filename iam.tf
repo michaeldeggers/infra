@@ -75,7 +75,7 @@ resource "aws_iam_role" "projects" {
       Statement = [
         {
           Action = [
-            "ec2:*",
+            "*",
           ]
           Effect   = "Allow"
           Resource = "*"
@@ -88,4 +88,14 @@ resource "aws_iam_role" "projects" {
       ]
     })
   }
+}
+
+data "aws_iam_policy" "AmazonEC2FullAccess" {
+  arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/AmazonEC2FullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "AmazonEC2FullAccess" {
+  for_each   = var.projects
+  role       = aws_iam_role.projects[each.key].name
+  policy_arn = data.aws_iam_policy.AmazonEC2FullAccess.arn
 }
