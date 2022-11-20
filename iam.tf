@@ -98,15 +98,31 @@ resource "aws_iam_role" "projects" {
       Statement = [
         {
           Action = [
-            "rds:DescribeDBSubnetGroups",
-            "rds:CreateDBInstance",
-            "rds:DeleteDBInstance"
+            "rds:*"
           ]
-          Effect = "Allow"
-          Resource = [
-            "arn:aws:rds::${data.aws_caller_identity.current.account_id}:subgrp:${var.organization}-${each.key}*",
-            "arn:aws:rds::${data.aws_caller_identity.current.account_id}:pg:${var.organization}-${each.key}*"
+          Effect   = "Allow"
+          Resource = "arn:aws:rds:${data.aws_caller_identity.current.region}:${data.aws_caller_identity.current.account_id}:*:${var.organization}-${each.key}*"
+        },
+        {
+          Action = [
+            "iam:CreateServiceLinkedRole",
+            "iam:DeleteServiceLinkedRole"
           ]
+          Effect   = "Allow"
+          Resource = "arn:aws:iam::*:role/aws-service-role/rds.amazonaws.com/${var.organization}-${each.key}*"
+          Condition = {
+            "StringLike" = {
+              "iam:AWSServiceName" : "rds.amazonaws.com"
+            }
+          }
+        },
+        {
+          Action = [
+            "iam:AttachRolePolicy",
+            "iam:PutRolePolicy"
+          ]
+          Effect   = "Allow"
+          Resource = "arn:aws:iam::*:role/aws-service-role/rds.amazonaws.com/${var.organization}-${each.key}*"
         },
       ]
     })
