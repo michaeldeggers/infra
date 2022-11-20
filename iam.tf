@@ -102,8 +102,11 @@ resource "aws_iam_role" "projects" {
             "rds:CreateDBInstance",
             "rds:DeleteDBInstance"
           ]
-          Effect   = "Allow"
-          Resource = "arn:aws:rds::${data.aws_caller_identity.current.account_id}:subgrp:${var.organization}-${each.key}*"
+          Effect = "Allow"
+          Resource = [
+            "arn:aws:rds::${data.aws_caller_identity.current.account_id}:subgrp:${var.organization}-${each.key}*",
+            "arn:aws:rds::${data.aws_caller_identity.current.account_id}:pg:${var.organization}-${each.key}*"
+          ]
         },
       ]
     })
