@@ -23,8 +23,8 @@ resource "aws_iam_user_policy" "projects" {
 }
 
 resource "aws_iam_user_policy" "eggs_cli" {
-  name     = "eggs-cli-deploy-assume-role-policy"
-  user     = "eggs-cli"
+  name = "eggs-cli-deploy-assume-role-policy"
+  user = "eggs-cli"
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
@@ -46,7 +46,7 @@ resource "aws_iam_access_key" "projects" {
 }
 
 resource "aws_iam_role" "deploy" {
-  name     = "${var.organization}-deploy-role"
+  name = "${var.organization}-deploy-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
