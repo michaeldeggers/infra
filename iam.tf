@@ -45,6 +45,11 @@ resource "aws_iam_access_key" "projects" {
   user     = aws_iam_user.projects[each.key].name
 }
 
+locals {
+  project_users     = setunion([for user in aws_iam_user.projects : user.name], ["eggs-cli"])
+  project_user_arns = [for user in local.project_users : "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${user}"]
+}
+
 resource "aws_iam_role" "deploy" {
   name = "${var.organization}-deploy-role"
 
@@ -52,15 +57,10 @@ resource "aws_iam_role" "deploy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Sid    = ""
-        Principal = {
-          "AWS" = [
-            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${var.organization}-*-user",
-            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/eggs-cli"
-          ]
-        }
+        Action    = "sts:AssumeRole"
+        Effect    = "Allow"
+        Sid       = ""
+        Principal = { "AWS" = local.project_user_arns }
       },
     ]
   })
