@@ -86,6 +86,7 @@ resource "aws_iam_role" "deploy" {
         },
         {
           Action = [
+            "iam:GetRole",
             "iam:CreateRole",
             "iam:DeleteRole",
             "iam:TagRole"
