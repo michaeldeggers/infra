@@ -90,13 +90,8 @@ resource "aws_iam_role" "deploy" {
             "iam:DeleteRole",
           ]
           Effect   = "Allow"
-          Resource = "*"
-          Condition = {
-            "StringEquals" = {
-              "aws:ResourceTag/Owner" = "${var.organization}-*"
-            }
-          }
-        },
+          Resource = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/eggs-projects-*"
+        }
       ]
     })
   }
