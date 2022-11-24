@@ -86,10 +86,7 @@ resource "aws_iam_role" "deploy" {
         },
         {
           Action = [
-            "iam:GetRole",
-            "iam:CreateRole",
-            "iam:DeleteRole",
-            "iam:TagRole"
+            "iam:*"
           ]
           Effect   = "Allow"
           Resource = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/eggs-projects-*"
