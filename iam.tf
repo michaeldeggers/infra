@@ -165,7 +165,8 @@ resource "aws_iam_policy" "route53_record_updates" {
           "route53:GetHostedZoneCount",
           "route53:ListHostedZonesByName",
           "route53:ListTagsForResource",
-          "route53:GetChange"
+          "route53:GetChange",
+          "acm:ListCertificates"
         ],
         Resource = "*"
       },
