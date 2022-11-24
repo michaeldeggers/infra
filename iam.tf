@@ -88,8 +88,11 @@ resource "aws_iam_role" "deploy" {
           Action = [
             "iam:*"
           ]
-          Effect   = "Allow"
-          Resource = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/eggs-projects-*"
+          Effect = "Allow"
+          Resource = [
+            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/eggs-projects-*",
+            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:instance-profile/eggs-projects-*"
+          ]
         }
       ]
     })
