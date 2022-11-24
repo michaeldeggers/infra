@@ -84,6 +84,19 @@ resource "aws_iam_role" "deploy" {
             }
           }
         },
+        {
+          Action = [
+            "iam:CreateRole",
+            "iam:DeleteRole",
+          ]
+          Effect   = "Allow"
+          Resource = "*"
+          Condition = {
+            "StringEquals" = {
+              "aws:ResourceTag/Owner" = "${var.organization}-*"
+            }
+          }
+        },
       ]
     })
   }
