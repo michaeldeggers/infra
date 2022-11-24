@@ -153,7 +153,8 @@ resource "aws_iam_policy" "route53_record_updates" {
           "route53:ChangeResourceRecordSets",
           "route53:ListResourceRecordSets",
           "route53:GetHostedZoneCount",
-          "route53:ListHostedZonesByName"
+          "route53:ListHostedZonesByName",
+          "route53:ListTagsForResource"
         ],
         Resource = "*"
       },
