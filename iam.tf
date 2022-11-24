@@ -99,7 +99,7 @@ resource "aws_iam_role" "deploy" {
             "rds:*"
           ]
           Effect   = "Allow"
-          Resource = "arn:aws:rds:${var.region}:${data.aws_caller_identity.current.account_id}:*:${var.organization}-*"
+          Resource = "arn:aws:rds:${var.region}:${data.aws_caller_identity.current.account_id}:*:*"
         },
         {
           Action = [
