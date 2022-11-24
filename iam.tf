@@ -184,5 +184,5 @@ resource "aws_iam_role_policy_attachment" "AmazonEC2FullAccess" {
 
 resource "aws_iam_role_policy_attachment" "route53_record_updates" {
   role       = aws_iam_role.deploy.name
-  policy_arn = data.aws_iam_policy.route53_record_updates.arn
+  policy_arn = aws_iam_policy.route53_record_updates.arn
 }
