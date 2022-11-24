@@ -131,8 +131,8 @@ data "aws_iam_policy" "AmazonEC2FullAccess" {
   arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
 }
 
-data "aws_iam_policy" "route53_record_updates" {
-  name        = "deploy_route53_policy"
+resource "aws_iam_policy" "route53_record_updates" {
+  name        = "${var.organization}-deploy-route53-policy"
   path        = "/"
   description = "Create and Update Records in Route53"
 
