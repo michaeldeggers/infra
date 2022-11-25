@@ -53,24 +53,11 @@ resource "tfe_variable" "project_name" {
   description  = "Project Name"
 }
 
-# Setup Repos for Projects
-resource "github_repository" "projects" {
-  for_each    = var.projects
-  name        = each.key
-  description = each.value["description"]
-
-  visibility = each.value["visibility"]
-
-  template {
-    owner                = var.owner
-    repository           = var.template_repo
-    include_all_branches = false
-  }
-}
-
-resource "github_actions_secret" "tf_api_token" {
-  for_each        = var.projects
-  repository      = each.key
-  secret_name     = "TF_API_TOKEN"
-  plaintext_value = var.team_api_token
+resource "tfe_variable" "route53_hosted_zone_name" {
+  for_each     = var.projects
+  key          = "route53_hosted_zone_name"
+  value        = var.environments[each.value["tfe"]["environments"][0]]["hosted_zone"]
+  category     = "terraform"
+  workspace_id = tfe_workspace.projects[each.key].id
+  description  = "Project Name"
 }
