@@ -166,7 +166,10 @@ resource "aws_iam_policy" "route53_record_updates" {
           "route53:ListHostedZonesByName",
           "route53:ListTagsForResource",
           "route53:GetChange",
-          "acm:ListCertificates"
+          "acm:ListCertificates",
+          "acm:DescribeCertificate",
+          "acm:GetCertificate",
+          "acm:ListTagsForCertificate"
         ],
         Resource = "*"
       },
