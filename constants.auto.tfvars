@@ -20,9 +20,7 @@ projects = {
       "owner" : "michaeldeggers",
       "repo" : "repo_template"
     },
-    "tfe" : {
-      "environments" : ["dev"]
-    }
+    "prod_enabled" : true
   },
   "test-repo" = {
     "description" : "Test Repo",
@@ -32,8 +30,6 @@ projects = {
       "owner" : "michaeldeggers",
       "repo" : "repo_template"
     },
-    "tfe" : {
-      "environments" : ["dev"]
-    }
+    "prod_enabled" : false
   }
 }

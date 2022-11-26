@@ -46,11 +46,6 @@ resource "aws_iam_access_key" "projects" {
   user     = aws_iam_user.projects[each.key].name
 }
 
-locals {
-  project_users     = setunion([for user in aws_iam_user.projects : user.name], [var.environment == "dev" ? "eggs-cli" : ""])
-  project_user_arns = [for user in local.project_users : "arn:aws:iam::${var.aws_account_id}:user/${user}"]
-}
-
 resource "aws_iam_role" "deploy" {
   name = "${var.organization}-deploy-role"
 

@@ -27,7 +27,6 @@ terraform {
 }
 
 provider "github" {
-  # Configuration options
   token = var.github_token
 }
 
@@ -36,6 +35,15 @@ provider "tfe" {
 }
 
 provider "aws" {
-  # Configuration options
   region = var.region
+}
+
+provider "aws" {
+  alias  = "prod"
+  region = var.region
+
+  assume_role {
+    # The role ARN within Account B to AssumeRole into. Created in step 1.
+    role_arn = "arn:aws:iam::174199678932:role/infra_role"
+  }
 }
