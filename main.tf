@@ -31,15 +31,15 @@ module "tfe_dev" {
   access_keys    = module.aws_dev.access_keys
 }
 
-# module "tfe_prod" {
-#   source         = "./tfe"
-#   environment    = "prod"
-#   organization   = var.organization
-#   projects       = var.projects
-#   aws_account_id = var.environments.prod.account_id
-#   hosted_zone    = var.environments.prod.hosted_zone
-#   access_keys    = module.aws_prod.access_keys
-# }
+module "tfe_prod" {
+  source         = "./tfe"
+  environment    = "prod"
+  organization   = var.organization
+  projects       = local.projects_prod
+  aws_account_id = var.environments.prod.account_id
+  hosted_zone    = var.environments.prod.hosted_zone
+  access_keys    = module.aws_prod.access_keys
+}
 
 # Setup Repos for Projects
 resource "github_repository" "projects" {
