@@ -133,10 +133,6 @@ resource "aws_iam_role" "deploy" {
   }
 }
 
-data "aws_iam_policy" "AmazonEC2FullAccess" {
-  arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
-}
-
 resource "aws_iam_policy" "route53_record_updates" {
   name        = "${var.organization}-deploy-route53-policy"
   path        = "/"
@@ -192,6 +188,11 @@ resource "aws_iam_policy" "route53_record_updates" {
 resource "aws_iam_role_policy_attachment" "AmazonEC2FullAccess" {
   role       = aws_iam_role.deploy.name
   policy_arn = data.aws_iam_policy.AmazonEC2FullAccess.arn
+}
+
+resource "aws_iam_role_policy_attachment" "AmazonS3FullAccess" {
+  role       = aws_iam_role.deploy.name
+  policy_arn = data.aws_iam_policy.AmazonS3FullAccess.arn
 }
 
 resource "aws_iam_role_policy_attachment" "route53_record_updates" {

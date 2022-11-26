@@ -13,7 +13,6 @@ variable "environments" {
   type        = map(any)
 }
 
-
 variable "github_token" {
   sensitive = true
 }

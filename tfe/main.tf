@@ -61,3 +61,12 @@ resource "tfe_variable" "route53_hosted_zone_name" {
   workspace_id = tfe_workspace.projects[each.key].id
   description  = "Project Name"
 }
+
+resource "tfe_variable" "environment" {
+  for_each     = var.projects
+  key          = "environment"
+  value        = var.environment
+  category     = "terraform"
+  workspace_id = tfe_workspace.projects[each.key].id
+  description  = "Envioronment"
+}
