@@ -24,18 +24,6 @@ projects = {
       "environments" : ["dev"]
     }
   },
-  "gatsby-blog" = {
-    "description" : "Blog to track projects, gaming, opinions, etc...",
-    "tags" : ["project"],
-    "visibility" : "public",
-    "template" : {
-      "owner" : "michaeldeggers",
-      "repo" : "starter-gatsby-blog"
-    },
-    "tfe" : {
-      "environments" : ["dev"]
-    }
-  },
   "test-repo" = {
     "description" : "Test Repo",
     "tags" : ["demo"],
