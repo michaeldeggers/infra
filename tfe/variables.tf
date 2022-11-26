@@ -25,10 +25,11 @@ variable "organization" {
 variable "projects" {
   description = "Attributes of the project"
   type = map(object({
-    description = string
-    tags        = list(string)
-    visibility  = string
-    template    = map(any)
+    description  = string
+    tags         = list(string)
+    visibility   = string
+    template     = map(any)
+    prod_enabled = bool
   }))
 }
 
