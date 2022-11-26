@@ -1,56 +1,22 @@
-# Setup Workspaces for Projects
-resource "tfe_workspace" "projects" {
-  for_each     = var.projects
-  name         = "${var.organization}-${each.key}"
-  organization = var.organization
-  tag_names    = each.value["tags"]
+#####################################################################
+# AWS Dev Resources
+#####################################################################
+module "aws_dev" {
+  source         = "./aws"
+  environment    = "dev"
+  organization   = var.organization
+  projects       = var.projects
+  aws_account_id = var.environments.dev.account_id
 }
 
-resource "tfe_variable" "access_key" {
-  for_each     = var.projects
-  key          = "AWS_ACCESS_KEY"
-  value        = aws_iam_access_key.projects[each.key].id
-  category     = "env"
-  sensitive    = true
-  workspace_id = tfe_workspace.projects[each.key].id
-  description  = "AWS Access Key"
-}
-
-resource "tfe_variable" "secret_key" {
-  for_each     = var.projects
-  key          = "AWS_SECRET_ACCESS_KEY"
-  value        = aws_iam_access_key.projects[each.key].secret
-  category     = "env"
-  sensitive    = true
-  workspace_id = tfe_workspace.projects[each.key].id
-  description  = "AWS Secret Access Key"
-}
-
-resource "tfe_variable" "aws_account_id" {
-  for_each     = var.projects
-  key          = "aws_account_id"
-  value        = data.aws_caller_identity.current.account_id
-  category     = "terraform"
-  workspace_id = tfe_workspace.projects[each.key].id
-  description  = "AWS Account ID"
-}
-
-resource "tfe_variable" "organization" {
-  for_each     = var.projects
-  key          = "organization"
-  value        = var.organization
-  category     = "terraform"
-  workspace_id = tfe_workspace.projects[each.key].id
-  description  = "Project Organization"
-}
-
-resource "tfe_variable" "project_name" {
-  for_each     = var.projects
-  key          = "project_name"
-  value        = each.key
-  category     = "terraform"
-  workspace_id = tfe_workspace.projects[each.key].id
-  description  = "Project Name"
+module "tfe_dev" {
+  source         = "./tfe"
+  environment    = "dev"
+  organization   = var.organization
+  projects       = var.projects
+  aws_account_id = var.environments.dev.account_id
+  hosted_zone    = var.environments.dev.hosted_zone
+  access_keys    = module.aws_dev.access_keys
 }
 
 # Setup Repos for Projects
@@ -62,8 +28,8 @@ resource "github_repository" "projects" {
   visibility = each.value["visibility"]
 
   template {
-    owner                = var.owner
-    repository           = var.template_repo
+    owner                = each.value["template"]["owner"]
+    repository           = each.value["template"]["repo"]
     include_all_branches = false
   }
 }

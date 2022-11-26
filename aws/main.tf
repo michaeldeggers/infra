@@ -23,8 +23,9 @@ resource "aws_iam_user_policy" "projects" {
 }
 
 resource "aws_iam_user_policy" "eggs_cli" {
-  name = "eggs-cli-deploy-assume-role-policy"
-  user = "eggs-cli"
+  count = var.environment == "dev" ? 1 : 0
+  name  = "eggs-cli-deploy-assume-role-policy"
+  user  = "eggs-cli"
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
@@ -46,8 +47,8 @@ resource "aws_iam_access_key" "projects" {
 }
 
 locals {
-  project_users     = setunion([for user in aws_iam_user.projects : user.name], ["eggs-cli"])
-  project_user_arns = [for user in local.project_users : "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${user}"]
+  project_users     = setunion([for user in aws_iam_user.projects : user.name], [var.environment == "dev" ? "eggs-cli" : ""])
+  project_user_arns = [for user in local.project_users : "arn:aws:iam::${var.aws_account_id}:user/${user}"]
 }
 
 resource "aws_iam_role" "deploy" {
@@ -90,8 +91,8 @@ resource "aws_iam_role" "deploy" {
           ]
           Effect = "Allow"
           Resource = [
-            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/eggs-projects-*",
-            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:instance-profile/eggs-projects-*"
+            "arn:aws:iam::${var.aws_account_id}:role/eggs-projects-*",
+            "arn:aws:iam::${var.aws_account_id}:instance-profile/eggs-projects-*"
           ]
         }
       ]
@@ -109,7 +110,7 @@ resource "aws_iam_role" "deploy" {
             "rds:*"
           ]
           Effect   = "Allow"
-          Resource = "arn:aws:rds:${var.region}:${data.aws_caller_identity.current.account_id}:*:*"
+          Resource = "arn:aws:rds:${var.region}:${var.aws_account_id}:*:*"
         },
         {
           Action = [
