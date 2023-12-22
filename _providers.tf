@@ -36,11 +36,28 @@ provider "tfe" {
 
 provider "aws" {
   region = var.region
+  # ... other configuration ...
+  default_tags {
+    tags = merge(
+      local.base_tags,
+      {
+        environment = "stage"
+      },
+    )
+  }
 }
 
 provider "aws" {
   alias  = "prod"
   region = var.region
+  default_tags {
+    tags = merge(
+      local.base_tags,
+      {
+        environment = "stage"
+      },
+    )
+  }
 
   assume_role {
     # The role ARN within Account B to AssumeRole into. Created in step 1.

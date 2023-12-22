@@ -1,6 +1,11 @@
 # Infra
 
 ## Repo used to create cloud resources to support development
+
+_note: use `sed -i '/Text to remove/Q' inputefile` to delete terraform docs_
+_note: use `terraform-docs markdown . >> README.md` to update docs_
+_note: set as bash alias `terra-docs` in bash\_aliases_
+
 ## Requirements
 
 | Name | Version |
