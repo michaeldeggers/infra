@@ -7,9 +7,10 @@ resource "aws_iam_user" "admin" {
   name  = "${var.organization}-admin"
 }
 
-resource "aws_iam_user_policy" "admin_prod" {
-  name = "${var.organization}-admin-assume-role-policy"
-  user = "${var.organization}-admin"
+resource "aws_iam_user_policy" "admin" {
+  count = var.aws_account_id == var.dev_account_id ? 1 : 0
+  name  = "${var.organization}-admin-assume-role-policy"
+  user  = "${var.organization}-admin"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -17,7 +18,10 @@ resource "aws_iam_user_policy" "admin_prod" {
       {
         Action   = "sts:AssumeRole"
         Effect   = "Allow"
-        Resource = "arn:aws:iam::${var.prod_account_id}:role/${aws_iam_role.admin_role.name}"
+        Resources = [
+          "arn:aws:iam::${var.prod_account_id}:role/${aws_iam_role.admin_role.name}",
+          "arn:aws:iam::${var.dev_account_id}:role/${aws_iam_role.admin_role.name}"
+        ]
       },
     ]
   })
