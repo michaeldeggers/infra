@@ -3,15 +3,15 @@ terraform {
   required_providers {
     tfe = {
       source  = "hashicorp/tfe"
-      version = "0.39.0"
+      version = ">= 0.39.0"
     }
     github = {
       source  = "integrations/github"
-      version = "5.9.1"
+      version = ">= 5.9.1"
     }
     aws = {
       source  = "hashicorp/aws"
-      version = "4.40.0"
+      version = ">= 4.40.0"
     }
   }
   required_version = ">= 1.1.0"
