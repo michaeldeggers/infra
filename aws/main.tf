@@ -189,9 +189,11 @@ resource "aws_iam_role" "deploy" {
             "arn:aws:iam::${var.aws_account_id}:instance-profile/eggs-projects-*"
           ]
         },
+        # Public ECR Repo Auth permissions
         {
           Action = [
-            "ecr-public:GetAuthorizationToken"
+            "ecr-public:GetAuthorizationToken",
+            "sts:GetServiceBearerToken"
           ]
           Effect = "Allow"
           Resource = "*"
