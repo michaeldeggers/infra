@@ -18,7 +18,7 @@ resource "aws_iam_user_policy" "admin" {
       {
         Action   = "sts:AssumeRole"
         Effect   = "Allow"
-        Resources = [
+        Resource = [
           "arn:aws:iam::${var.prod_account_id}:role/${aws_iam_role.admin_role.name}",
           "arn:aws:iam::${var.dev_account_id}:role/${aws_iam_role.admin_role.name}"
         ]
