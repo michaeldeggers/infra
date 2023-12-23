@@ -29,3 +29,12 @@ variable "projects" {
 variable "region" {
   default = "us-east-1"
 }
+
+variable "dev_account_id" {
+  description = "dev account id"
+  type        = string
+}
+variable "prod_account_id" {
+  description = "prod account id"
+  type        = string
+}
