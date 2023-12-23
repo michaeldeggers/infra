@@ -2,19 +2,23 @@
 # AWS Dev Resources
 #####################################################################
 module "aws_dev" {
-  source         = "./aws"
-  environment    = "dev"
-  organization   = var.organization
-  projects       = var.projects
-  aws_account_id = var.environments.dev.account_id
+  source          = "./aws"
+  environment     = "dev"
+  organization    = var.organization
+  projects        = var.projects
+  aws_account_id  = var.environments.dev.account_id
+  dev_account_id  = var.environments.dev.account_id
+  prod_account_id = var.environments.prod.account_id
 }
 
 module "aws_prod" {
-  source         = "./aws"
-  environment    = "prod"
-  organization   = var.organization
-  projects       = local.projects_prod
-  aws_account_id = var.environments.prod.account_id
+  source          = "./aws"
+  environment     = "prod"
+  organization    = var.organization
+  projects        = local.projects_prod
+  aws_account_id  = var.environments.prod.account_id
+  dev_account_id  = var.environments.dev.account_id
+  prod_account_id = var.environments.prod.account_id
 
   providers = {
     aws = aws.prod

@@ -41,7 +41,7 @@ provider "aws" {
     tags = merge(
       local.base_tags,
       {
-        environment = "stage"
+        environment = "development"
       },
     )
   }
@@ -54,7 +54,7 @@ provider "aws" {
     tags = merge(
       local.base_tags,
       {
-        environment = "stage"
+        environment = "production"
       },
     )
   }

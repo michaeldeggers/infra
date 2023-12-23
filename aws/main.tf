@@ -1,3 +1,96 @@
+#####################################################################
+# Generated with CoPilot Assistance
+#####################################################################
+# In the dev account
+resource "aws_iam_user" "admin" {
+  count = var.aws_account_id == var.dev_account_id ? 1 : 0
+  name  = "${var.organization}-admin"
+}
+
+resource "aws_iam_user_policy" "admin_prod" {
+  name = "${var.organization}-admin-assume-role-policy"
+  user = "${var.organization}-admin"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action   = "sts:AssumeRole"
+        Effect   = "Allow"
+        Resource = "arn:aws:iam::${var.prod_account_id}:role/${aws_iam_role.admin_role.name}"
+      },
+    ]
+  })
+}
+
+# In the both accounts
+resource "aws_iam_role" "admin_role" {
+  name = "${var.organization}-admin-role"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action    = "sts:AssumeRole"
+        Effect    = "Allow"
+        Principal = { "AWS" = "arn:aws:iam::${var.dev_account_id}:user/${var.organization}-admin" }
+      },
+    ]
+  })
+
+  # Full Rights over owned resources. TODO: Limit Scope
+  inline_policy {
+    name = "${var.organization}-admin-policy"
+
+    policy = jsonencode({
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Action = [
+            "*",
+          ]
+          Effect   = "Allow"
+          Resource = "*"
+          Condition = {
+            "StringEquals" = {
+              "aws:ResourceTag/Owner" = "${var.organization}-*"
+            }
+          }
+        },
+        {
+          Action = [
+            "iam:*"
+          ]
+          Effect = "Allow"
+          Resource = [
+            "arn:aws:iam::${var.aws_account_id}:role/eggs-projects-*",
+            "arn:aws:iam::${var.aws_account_id}:instance-profile/eggs-projects-*"
+          ]
+        }
+      ]
+    })
+  }
+}
+#####################################################################
+
+resource "aws_iam_user_policy" "admin_dev" {
+  count = var.aws_account_id == var.dev_account_id ? 1 : 0
+  name  = "${var.organization}-admin-assume-role-policy"
+  user  = "${var.organization}-admin"
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action   = "sts:AssumeRole"
+        Effect   = "Allow"
+        Resource = aws_iam_role.admin_role.arn
+      },
+    ]
+  })
+}
+
 resource "aws_iam_user" "projects" {
   for_each = var.projects
   name     = "${var.organization}-${each.key}-user"
