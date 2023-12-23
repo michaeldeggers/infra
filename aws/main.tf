@@ -188,6 +188,13 @@ resource "aws_iam_role" "deploy" {
             "arn:aws:iam::${var.aws_account_id}:role/eggs-projects-*",
             "arn:aws:iam::${var.aws_account_id}:instance-profile/eggs-projects-*"
           ]
+        },
+        {
+          Action = [
+            "ecr-public:GetAuthorizationToken"
+          ]
+          Effect = "Allow"
+          Resource = "*"
         }
       ]
     })
