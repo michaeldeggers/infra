@@ -3,6 +3,7 @@ locals {
 
   # recommended aws tags to use for aws terraform provider
   base_tags = {
-    repo = "https://github.com/michaeldeggers/infra"
+    github_repo = "infra"
+    github_org  = "michaeldeggers"
   }
 }
