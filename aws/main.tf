@@ -113,7 +113,10 @@ resource "aws_iam_user_policy" "projects" {
       {
         Action   = "sts:AssumeRole"
         Effect   = "Allow"
-        Resource = aws_iam_role.deploy.arn
+        Resource = [
+          aws_iam_role.deploy.arn,
+          "arn:aws:iam::${var.aws_account_id}:role/${var.organization}-${each.key}-*"
+        ]
       },
     ]
   })
