@@ -5,6 +5,17 @@ resource "github_repository" "projects" {
   description = each.value["description"]
 
   visibility = each.value["visibility"]
+  security_and_analysis {
+    advanced_security {
+      status = each.value["advanced_security"]
+    }
+    secret_scanning_push_protection {
+      status = each.value["secret_scanning_push_protection"]
+    }
+    secret_scanning {
+      status = each.value["secret_scanning"]
+    }
+  }
 
   template {
     owner                = each.value["template"]["owner"]
