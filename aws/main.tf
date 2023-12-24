@@ -215,6 +215,13 @@ resource "aws_iam_role" "deploy" {
           ]
           Effect   = "Allow"
           Resource = "*"
+        },
+        {
+          Action = [
+            "eks:*"
+          ]
+          Effect   = Allow
+          Resource = "arn:aws:eks:${var.region}:${var.aws_account_id}:cluster/eggs-projects-*"
         }
       ]
     })
