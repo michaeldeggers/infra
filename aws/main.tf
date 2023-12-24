@@ -205,14 +205,12 @@ resource "aws_iam_role" "deploy" {
           Action = [
             "logs:*"
           ]
-          Effect = "Allow"
-          Resource = [
-            "arn:aws:logs:us-east-1:${var.aws_account_id}:log-group:/aws/eks/eggs-projects-*"
-          ]
+          Effect   = "Allow"
+          Resource = "*"
         },
         {
           Action = [
-            "kms:TagResource"
+            "kms:*"
           ]
           Effect   = "Allow"
           Resource = "*"
