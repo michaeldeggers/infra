@@ -175,7 +175,7 @@ resource "aws_iam_role" "deploy" {
           Resource = "*"
           Condition = {
             "StringEquals" = {
-              "aws:ResourceTag/Owner" = "${var.organization}-*"
+              "aws:ResourceTag/owner" = "${var.organization}-*"
             }
           }
         },
