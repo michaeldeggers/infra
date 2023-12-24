@@ -111,8 +111,8 @@ resource "aws_iam_user_policy" "projects" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action   = "sts:AssumeRole"
-        Effect   = "Allow"
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
         Resource = [
           aws_iam_role.deploy.arn
         ]
@@ -186,16 +186,35 @@ resource "aws_iam_role" "deploy" {
           Effect = "Allow"
           Resource = [
             "arn:aws:iam::${var.aws_account_id}:role/eggs-projects-*",
-            "arn:aws:iam::${var.aws_account_id}:instance-profile/eggs-projects-*"
+            "arn:aws:iam::${var.aws_account_id}:instance-profile/eggs-projects-*",
+            # eks-cluster permissions
+            "arn:aws:iam::${var.aws_account_id}:role/karpenter-*",
+            "arn:aws:iam::${var.aws_account_id}:role/kube-system-*"
           ]
         },
-        # Public ECR Repo Auth permissions
+        # Public ECR Repo Auth permissions for eks-cluster
         {
           Action = [
             "ecr-public:GetAuthorizationToken",
             "sts:GetServiceBearerToken"
           ]
+          Effect   = "Allow"
+          Resource = "*"
+        },
+        {
+          Action = [
+            "logs:*"
+          ]
           Effect = "Allow"
+          Resource = [
+            "arn:aws:logs:us-east-1:${var.aws_account_id}:log-group:/aws/eks/eggs-projects-*"
+          ]
+        },
+        {
+          Action = [
+            "kms:TagResource"
+          ]
+          Effect   = "Allow"
           Resource = "*"
         }
       ]
